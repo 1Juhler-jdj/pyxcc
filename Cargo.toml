@@ -1,15 +1,15 @@
 [package]
-name = "algoxcc_python"
+name = "pyxcc"
 version = "0.1.1"
 edition = "2024"
 
 [lib]
-name = "algoxccpy"
+name = "pyxcc"
 crate-type = ["cdylib"]
 doc = false
 
 [dependencies]
-algoxcc = { path = "../algoxcc_rust" }
+algoxcc = "0.1"
 
 [dependencies.pyo3]
 version = "0.24.1"

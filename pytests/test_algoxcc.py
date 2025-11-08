@@ -1,4 +1,4 @@
-import algoxcc as xcc
+import pyxcc as xcc
 import json
 import pytest
 
@@ -72,10 +72,10 @@ def test_simple_primary_only():
         ]
     )
     # get all possible solutions
-    solutions = xcc.solve(problem, True)
+    solutions: xcc.Solutions = xcc.solve(problem, True)
     # one solution found
-    assert len(solutions) == 1
-    solution = solutions[0]
+    assert solutions.count() == 1
+    solution = solutions.first()
     # solution with two options
     assert len(solution) == 2
     options = set(solution)
@@ -105,12 +105,12 @@ def test_solve_knuth_a():
     )
 
     # solve
-    solutions = xcc.solve(problem, True)
+    solutions: xcc.Solutions = xcc.solve(problem, True)
 
     # verify
-    assert len(solutions) == 1, "1 solution"
-    assert len(solutions[0]) == 3, "Solution with 3 rows"
-    rows = set(solutions[0])
+    assert solutions.count() == 1, "1 solution"
+    assert len(solutions.first()) == 3, "Solution with 3 rows"
+    rows = set(solutions.first())
     assert rows == {'r1', 'r4', 'r5'}, "Solution with rows: 1, 4 and 5"
 
 def test_solve_large():
@@ -118,7 +118,7 @@ def test_solve_large():
     # Running solve on test_matrix.json should give these two solutions:
     # [598, 1945, 2604, 2943, 3171]
     # [819, 2050, 3899, 3965, 4699]
-    with open('algoxcc_py/pytests/test_matrix.json') as f:
+    with open('pytests/test_matrix.json') as f:
         matrix = json.load(f)
 
     # define problem
@@ -134,12 +134,12 @@ def test_solve_large():
         problem.add_option(option)
 
     # solve
-    solutions = xcc.solve(problem, True)
+    solutions: xcc.Solutions = xcc.solve(problem, True)
 
     # verify
-    assert len(solutions) == 2, "2 solutions"
-    assert len(solutions[0]) == 5, "Solution with 5 rows"
-    assert solutions[0] == ['o0597', 'o1944', 'o2603', 'o2942', 'o3170'], "Solution with rows: 1, 4 and 5"
+    assert solutions.count() == 2, "2 solutions"
+    assert len(solutions.first()) == 5, "Solution with 5 rows"
+    assert solutions.first() == ['o0597', 'o1944', 'o2603', 'o2942', 'o3170'], "Solution with rows: 1, 4 and 5"
 
 def test_solve_knuth_b():
     problem = xcc.Problem(
@@ -154,12 +154,12 @@ def test_solve_knuth_b():
         ]
     )
     # solve
-    solutions = xcc.solve(problem, True)
+    solutions: xcc.Solutions = xcc.solve(problem, True)
 
     # verify
-    assert len(solutions) == 1, "1 solution"
-    assert len(solutions[0]) == 2, "Solution with 5 rows"
-    assert solutions[0] == ['o2','o4'], "Solution with rows 2 and 4"
+    assert solutions.count() == 1, "1 solution"
+    assert len(solutions.first()) == 2, "Solution with 5 rows"
+    assert solutions.first() == ['o2','o4'], "Solution with rows 2 and 4"
 
 def test_8_queens():
     # construct problem
@@ -182,7 +182,7 @@ def test_8_queens():
             ))
     
     # solve
-    solutions = xcc.solve(problem, True)
+    solutions: xcc.Solutions = xcc.solve(problem, True)
 
     # verify
-    assert len(solutions) == 92, "92 solutions"
+    assert solutions.count() == 92, "92 solutions"

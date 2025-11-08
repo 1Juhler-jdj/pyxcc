@@ -1,13 +1,1 @@
-error: failed to get `algoxcc` as a dependency of package `algoxcc_python v0.1.1 (/Users/jesperjuhl/Documents/GitHub/pyxcc)`
-
-Caused by:
-  failed to load source for dependency `algoxcc`
-
-Caused by:
-  Unable to update /Users/jesperjuhl/Documents/GitHub/algoxcc_rust
-
-Caused by:
-  failed to read `/Users/jesperjuhl/Documents/GitHub/algoxcc_rust/Cargo.toml`
-
-Caused by:
-  No such file or directory (os error 2)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s

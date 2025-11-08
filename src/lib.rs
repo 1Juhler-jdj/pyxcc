@@ -1,11 +1,36 @@
 mod value_error;
 
-use ::algoxcc as xcc;
+use algoxcc as xcc;
 use pyo3::prelude::*;
 use value_error::ValueError;
 
 #[derive(FromPyObject)]
-#[pyclass(module = "algoxcc")]
+#[pyclass(module = "pyxcc")]
+pub struct Solutions {
+    data: Vec<Vec<String>>,
+}
+#[pymethods]
+impl Solutions {
+    #[new]
+    pub fn new(data: Vec<Vec<String>>) -> Self {
+        Solutions { data }
+    }
+    pub fn count(&self) -> usize {
+        self.data.len()
+    }
+    pub fn all(&self) -> &Vec<Vec<String>> {
+        &self.data
+    }
+    pub fn first(&self) -> Result<&Vec<String>, ValueError> {
+        if self.count() == 0 {
+            return Err(ValueError::new("No solutions found".to_string()));
+        }
+        Ok(&self.data[0])
+    }
+}
+
+#[derive(FromPyObject)]
+#[pyclass(module = "pyxcc")]
 pub struct Option {
     pub label: String,
     pub primary_items: Vec<String>,
@@ -84,7 +109,7 @@ impl Option {
 }
 
 #[derive(FromPyObject)]
-#[pyclass(module = "algoxcc")]
+#[pyclass(module = "pyxcc")]
 pub struct Problem {
     pub primary_items: Vec<String>,
     pub secondary_items: Vec<String>,
@@ -188,7 +213,7 @@ impl Problem {
 }
 
 #[pyfunction]
-pub fn solve(problem: &Problem, get_all: bool) -> Result<Vec<Vec<String>>, ValueError> {
+pub fn solve(problem: &Problem, get_all: bool) -> Result<Solutions, ValueError> {
     let rust_problem = xcc::Problem::new_validated(
         &problem.primary_items.iter().map(|s| s.as_str()).collect(),
         &problem.secondary_items.iter().map(|s| s.as_str()).collect(),
@@ -215,16 +240,18 @@ pub fn solve(problem: &Problem, get_all: bool) -> Result<Vec<Vec<String>>, Value
     }
     let mut dc = result.unwrap();
     if get_all {
-        return Ok(dc.solve_all());
+        let xccsol = dc.solve_all();
+        return Ok(Solutions::new(xccsol.all().clone()));
     }
-    Ok(dc.solve_first())
+    let xccsol = dc.solve_first();
+    Ok(Solutions::new(xccsol.all().clone()))
 }
 
 /// A Python module implemented in Rust. The name of this function must match
 /// the `lib.name` setting in the `Cargo.toml`, else Python will not be able to
 /// import the module.
 #[pymodule]
-fn algoxcc(m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn pyxcc(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Option>()?;
     m.add_class::<Problem>()?;
     m.add_function(wrap_pyfunction!(solve, m)?)?;

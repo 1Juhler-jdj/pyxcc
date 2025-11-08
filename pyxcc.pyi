@@ -18,7 +18,7 @@ in options).
 
 Problem with four items, four options and one solution::
 
-    import algoxcc as xcc
+    import pyxcc as xcc
     solver = xcc.Solver()
     problem = xcc.Problem(
         ['i1', 'i2', 'i3', 'i4'],
@@ -32,8 +32,8 @@ Problem with four items, four options and one solution::
     # get all possible solutions
     solutions = solver.solve(problem, True)
     # one solution found
-    assert len(solutions) == 1
-    solution = solutions[0]
+    assert solutions.count() == 1
+    solution = solutions.first()
     # solution with two options
     assert len(solution) == 2
     options = set(solution)
@@ -48,7 +48,7 @@ options covering it.
 
 Problem with three primary items, two secondary items and five options::
     
-    import algoxcc as xcc
+    import pyxcc as xcc
     solver = xcc.solver()
     problem = xcc.Problem(
         ['p','q','r'],
@@ -64,11 +64,42 @@ Problem with three primary items, two secondary items and five options::
     # solve
     solutions = solver.solve(problem, True)
     # verify
-    assert len(solutions) == 1, "1 solution"
-    assert len(solutions[0]) == 2, "Solution with 5 rows"
-    assert solutions[0] == ['o2','o4'], "Solution with rows 2 and 4"
+    assert solutions.count() == 1, "1 solution"
+    assert len(solutions.first()) == 2, "Solution with 5 rows"
+    assert solutions.first() == ['o2','o4'], "Solution with rows 2 and 4"
 
 """
+class Solutions:
+    """
+    Soution to an eXact Cover with Colors Problem
+    
+    ## Examples
+
+    Found solutions to a problem::
+
+        import pyxcc as xcc
+        solutions = xcc.solve(problem, true)
+        # number of solutions found
+        number_found = solutions.count()
+        # first solution found
+        first_found = solutions.first()
+        # loop over all solutions found
+        for solution in solutions.all():
+            ...
+        
+    """
+    def count() -> int:
+        """
+        Return number of solutions found.
+        """
+    def first() -> list[str]:
+        """
+        Return first solution found.
+        """
+    def all() -> list[list[str]]:
+        """
+        Return all solutions found.
+        """
 class Option:
     """
     Option in a Problem for eXact Cover with Colors.
@@ -262,7 +293,7 @@ class Problem:
             problem.add_option(Option(...))
         """
 
-def solve(self, problem: Problem, get_all: bool) -> list[list[str]]:
+def solve(self, problem: Problem, get_all: bool) -> Solutions:
     """
     solve eXact Cover with Colors.
 

@@ -1,0 +1,6 @@
+**/target
+.DS_store
+/log
+/.pytest_cache
+/.venv
+PROJECT_LOG.md
