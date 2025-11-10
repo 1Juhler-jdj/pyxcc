@@ -89,3 +89,9 @@ Generate a GitHub Actions workflow:
 > maturin generate-ci github > .github/workflows/wheel.yml
 
 The workflow will only trigger Publish to PyPI if the push is tagged with a new version
+
+Use the Command Palette and choose Git: Create Tag
+
+Give the tag a name v0.1.1 and press Enter.
+
+To push the tag to the remote server, you can open the Command Palette again and choose Git: Push (Follow Tags).
