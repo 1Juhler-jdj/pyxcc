@@ -40,3 +40,103 @@ With prerequisites:
 
 ### The code
 
+Install using Pip:
+
+```txt
+pip install pyxcc
+```
+
+Example simple binary matrix (exact cover without secondary items):
+
+```python
+# import the packace as xcc
+import pyxcc as xcc
+
+# prepare problem to solve based on
+# binary matrix (Knuth's example)
+# [0, 0, 1, 0, 1, 0, 0],
+# [1, 0, 0, 1, 0, 0, 1],
+# [0, 1, 1, 0, 0, 1, 0],
+# [1, 0, 0, 1, 0, 1, 0],
+# [0, 1, 0, 0, 0, 0, 1],
+# [0, 0, 0, 1, 1, 0, 1],
+problem = xcc.Problem( 
+    ['a','b','c','d','e','f','g'], 
+    [],
+    [
+        xcc.Option('r1', ['c', 'e'], []),
+        xcc.Option('r2', ['a', 'd', 'g'], []),
+        xcc.Option('r3', ['b', 'c', 'f'], []),
+        xcc.Option('r4', ['a', 'd', 'f'], []),
+        xcc.Option('r5', ['b', 'g'], []),
+        xcc.Option('r6', ['d', 'e', 'g'], []),
+    ]
+)
+
+# solve
+solutions: xcc.Solutions = xcc.solve(problem, True)
+
+# verify
+assert solutions.count() == 1, "1 solution"
+assert len(solutions.first()) == 3, "Solution with 3 rows"
+rows = set(solutions.first())
+assert rows == {'r1', 'r4', 'r5'}, "Solution with rows: 1, 4 and 5"
+```
+
+Example XCC example used by Donald Knuth
+
+```python
+# import the packace as xcc
+import pyxcc as xcc
+
+problem = xcc.Problem(
+    ['p','q','r'],
+    ['x','y'],
+    [
+        xcc.Option('o1', ['p', 'q'], [('x',''), ('y','a')]),
+        xcc.Option('o2', ['p', 'r'], [('x','a'), ('y','')]),
+        xcc.Option('o3', ['p'], [('x','b')]),
+        xcc.Option('o4', ['q'], [('x','a')]),
+        xcc.Option('o5', ['r'], [('y','b')]),
+    ]
+)
+# solve
+solutions: xcc.Solutions = xcc.solve(problem, True)
+
+# verify
+assert solutions.count() == 1, "1 solution"
+assert len(solutions.first()) == 2, "Solution with 5 rows"
+assert solutions.first() == ['o2','o4'], "Solution with rows 2 and 4"
+```
+
+Example [8 queens puzzle](https://en.wikipedia.org/wiki/Eight_queens_puzzle):
+
+```python
+# import the packace as xcc
+import pyxcc as xcc
+
+# construct problem
+problem = xcc.Problem([], [], [])
+# a single queen in each row and column
+for x in range(1,9):
+    problem.add_primary_item(f'r{x}')
+    problem.add_primary_item(f'c{x}')
+# at most one queen in each diagonal
+for x in range(1,16):
+    problem.add_secondary_item(f'u{x}')
+    problem.add_secondary_item(f'd{x}')
+# an option for each field on the board
+for x in range(1,9):
+    for y in range(1,9):
+        problem.add_option(xcc.Option(
+            f'{x},{y}',
+            [f'r{x}',f'c{y}'], 
+            [(f'u{8-x+y}',''),(f'd{x+y-1}','')]
+        ))
+
+# solve
+solutions: xcc.Solutions = xcc.solve(problem, True)
+
+# verify
+assert solutions.count() == 92, "92 solutions"
+```

@@ -2,11 +2,13 @@
 name = "pyxcc"
 version = "0.1.1"
 edition = "2024"
+description = "Rust implementation of eXact Cover with Colors algorithm."
+license = "Apache-2.0 OR MIT"
+source = "https://github.com/1Juhler-jdj/pyxcc"
 
 [lib]
 name = "pyxcc"
 crate-type = ["cdylib"]
-doc = false
 
 [dependencies]
 algoxcc = "0.1"

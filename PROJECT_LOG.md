@@ -74,14 +74,18 @@ Update the cargo.toml file with the mandatory fields: license, authors, descript
 Prepare for publishing using "cargo package"
 > cargo package
 
-TODO:
+# 09.11.2025
 
+Moved to python-only package pyxcc
 
+Create a user for PyPi (1Juhler) and generate a token for API upload
+Add the token as Github repository secret PYPI_API_UPLOAD
 
-Handle README for each lib (rust and python)
+Make Github repo public
+> https://github.com/1Juhler-jdj/pyxcc
 
-Update workspace README (for github)
-- Usage from Rust
-- Author
-- License
+Generate a GitHub Actions workflow:
+> mkdir -p .github/workflows
+> maturin generate-ci github > .github/workflows/wheel.yml
 
+The workflow will only trigger Publish to PyPI if the push is tagged with a new version

@@ -2,6 +2,39 @@
 requires = ["maturin>=1.0,<2.0"]
 build-backend = "maturin"
 
+[project]
+name = "pyxcc"
+version = "0.1.1"
+description = "Rust implementation of eXact Cover with Colors algorithm using Donald Knuth's Dancing Cells data structure"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "Apache-2.0 OR MIT" }
+keywords = ["algorithm", "exact-cover", "knuth", "dancing-links", "constraint-satisfaction"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+Homepage = "https://github.com/1Juhler-jdj/pyxcc"
+Repository = "https://github.com/1Juhler-jdj/pyxcc"
+
 [tool.maturin]
 # "extension-module" tells pyo3 we want to build an extension module (skips linking against libpython.so)
 features = ["pyo3/extension-module"]
+# Include README and other files in the distribution
+include = ["README.md", "LICENSE-*"]
