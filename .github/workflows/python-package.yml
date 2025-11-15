@@ -219,4 +219,4 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_UPLOAD }}
         run: |
           pip install --upgrade twine
-          twine upload --skip-existing *
+          twine upload dist/* --skip-existing *
