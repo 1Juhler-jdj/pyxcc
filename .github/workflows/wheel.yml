@@ -16,17 +16,17 @@ jobs:
       matrix:
         platform:
           - runner: ubuntu-22.04
-            target: linux-x86_64
+            target: x86_64
           - runner: ubuntu-22.04
-            target: linux-x86
+            target: x86
           - runner: ubuntu-22.04
-            target: linux-aarch64
+            target: aarch64
           - runner: ubuntu-22.04
-            target: linux-armv7
+            target: armv7
           - runner: ubuntu-22.04
-            target: linux-s390x
+            target: s390x
           - runner: ubuntu-22.04
-            target: linux-ppc64le
+            target: ppc64le
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -49,8 +49,7 @@ jobs:
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          # name: wheels-linux-${{ matrix.platform.target }}
-          name: wheels
+          name: wheels-linux-${{ matrix.platform.target }}
           path: dist
 
   musllinux:
@@ -59,13 +58,13 @@ jobs:
       matrix:
         platform:
           - runner: ubuntu-22.04
-            target: musllinux-x86_64
+            target: x86_64
           - runner: ubuntu-22.04
-            target: musllinux-x86
+            target: x86
           - runner: ubuntu-22.04
-            target: musllinux-aarch64
+            target: aarch64
           - runner: ubuntu-22.04
-            target: musllinux-armv7
+            target: armv7
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -88,8 +87,7 @@ jobs:
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: wheels
-          # name: wheels-musllinux-${{ matrix.platform.target }}
+          name: wheels-musllinux-${{ matrix.platform.target }}
           path: dist
 
   windows:
@@ -98,9 +96,9 @@ jobs:
       matrix:
         platform:
           - runner: windows-latest
-            target: windows-x64
+            target: x64
           - runner: windows-latest
-            target: windows-x86
+            target: x86
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -126,8 +124,7 @@ jobs:
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: wheels
-          # name: wheels-windows-${{ matrix.platform.target }}
+          name: wheels-windows-${{ matrix.platform.target }}
           path: dist
 
   macos:
@@ -136,9 +133,9 @@ jobs:
       matrix:
         platform:
           - runner: macos-15-intel
-            target: macos-x86_64
+            target: x86_64
           - runner: macos-14
-            target: macos-aarch64
+            target: aarch64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -159,8 +156,7 @@ jobs:
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: wheels
-          # name: wheels-macos-${{ matrix.platform.target }}
+          name: wheels-macos-${{ matrix.platform.target }}
           path: dist
 
   # sdist:
@@ -186,7 +182,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: wheels
+          name: wheels-*
       - uses: actions/setup-python@v5
         with:
           python-version: 3.9
