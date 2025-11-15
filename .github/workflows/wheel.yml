@@ -178,11 +178,9 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch' }}
-    needs: [macos, windows, linux, musllinux]
+    needs: [macos, windows, linux, musllinux, sdist]
     steps:
       - uses: actions/download-artifact@v4
-        with:
-          name: wheels
       - uses: actions/setup-python@v5
         with:
           python-version: 3.9
